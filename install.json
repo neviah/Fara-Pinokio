@@ -1,44 +1,45 @@
 [
   {
-    "method": "notify",
-    "params": {
-      "html": "Installing <b>Fara-7B Computer Use Agent</b>...<br><br>This will take a few minutes to:<br>• Set up Python environment<br>• Clone Microsoft Fara repository<br>• Install all dependencies<br>• Download browser automation tools"
-    }
-  },
-  {
     "method": "shell.run",
     "params": {
       "venv": "env",
-      "message": "Creating Python virtual environment...",
+      "message": "Setting up Python environment...",
       "path": "python -m venv env"
     }
   },
   {
     "method": "shell.run",
     "params": {
-      "venv": "env",
-      "message": "Upgrading pip...",
-      "path": "python -m pip install --upgrade pip"
+      "venv": "env", 
+      "message": "Installing Gradio...",
+      "path": "pip install gradio"
     }
   },
   {
-    "when": "{{platform !== 'win32'}}",
     "method": "shell.run",
     "params": {
-      "message": "Cloning Microsoft Fara repository...",
+      "venv": "env",
+      "message": "Installing Playwright...", 
+      "path": "pip install playwright"
+    }
+  },
+  {
+    "method": "shell.run",
+    "params": {
+      "venv": "env",
+      "message": "Installing other dependencies...",
+      "path": "pip install openai pillow tenacity numpy requests"
+    }
+  },
+  {
+    "method": "shell.run",
+    "params": {
+      "message": "Cloning Fara repository...",
       "path": "git clone https://github.com/microsoft/fara.git fara_repo"
     }
   },
   {
-    "when": "{{platform === 'win32'}}",
     "method": "shell.run", 
-    "params": {
-      "message": "Cloning Microsoft Fara repository...",
-      "path": "git.exe clone https://github.com/microsoft/fara.git fara_repo"
-    }
-  },
-  {
-    "method": "shell.run",
     "params": {
       "venv": "env",
       "message": "Installing Fara package...",
@@ -49,22 +50,8 @@
     "method": "shell.run",
     "params": {
       "venv": "env",
-      "message": "Installing additional dependencies...",
-      "path": "pip install -r requirements.txt"
-    }
-  },
-  {
-    "method": "shell.run",
-    "params": {
-      "venv": "env",
-      "message": "Installing Playwright browsers...",
+      "message": "Installing browsers...",
       "path": "playwright install"
-    }
-  },
-  {
-    "method": "notify",
-    "params": {
-      "html": "✅ <b>Installation Complete!</b><br><br>🎯 Fara-7B is ready to use!<br><br>Click <b>'Start'</b> to launch the interface.<br><br>💡 <b>Note:</b> You'll need either:<br>• Local VLLM server running<br>• Or Azure Foundry endpoint"
     }
   }
 ]

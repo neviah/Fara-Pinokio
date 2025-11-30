@@ -1,29 +1,17 @@
 [
   {
-    "method": "notify",
-    "params": {
-      "html": "🚀 <b>Starting Fara-7B Interface</b><br><br>The Gradio interface will open at:<br><b>http://localhost:7860</b><br><br>💡 Make sure you have a model server running!"
-    }
-  },
-  {
     "method": "shell.run",
     "params": {
       "venv": "env",
       "daemon": true,
-      "message": "Starting Fara-7B Gradio Interface...",
+      "message": "Starting Fara-7B interface...",
       "path": "python gradio_interface.py"
-    }
-  },
-  {
-    "method": "local.set",
-    "params": {
-      "url": "http://localhost:7860"
     }
   },
   {
     "method": "browser.open",
     "params": {
-      "uri": "{{local.url}}"
+      "uri": "http://localhost:7860"
     }
   }
 ]
