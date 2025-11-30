@@ -1,0 +1,23 @@
+[
+  {
+    "method": "shell.run",
+    "params": {
+      "daemon": true,
+      "venv": "env",
+      "path": "python gradio_interface.py",
+      "message": "Starting Fara-7B Gradio Interface..."
+    }
+  },
+  {
+    "method": "local.set",
+    "params": {
+      "url": "http://localhost:7860"
+    }
+  },
+  {
+    "method": "browser.open", 
+    "params": {
+      "uri": "{{local.url}}"
+    }
+  }
+]

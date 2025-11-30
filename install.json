@@ -1,0 +1,69 @@
+[
+  {
+    "method": "shell.run",
+    "params": {
+      "message": "Checking Python installation...",
+      "venv": "env",
+      "path": "python --version",
+      "on": [
+        {
+          "event": "/.*/",
+          "done": true
+        }
+      ]
+    }
+  },
+  {
+    "method": "shell.run", 
+    "params": {
+      "message": "Creating Python virtual environment...",
+      "venv": "env",
+      "path": "python -m venv env"
+    }
+  },
+  {
+    "method": "shell.run",
+    "params": {
+      "message": "Upgrading pip...",
+      "venv": "env",
+      "path": "pip install --upgrade pip"
+    }
+  },
+  {
+    "method": "shell.run",
+    "params": {
+      "message": "Cloning Microsoft Fara repository...",
+      "path": "git clone https://github.com/microsoft/fara.git fara_repo"
+    }
+  },
+  {
+    "method": "shell.run",
+    "params": {
+      "message": "Installing Fara package...",
+      "venv": "env",
+      "path": "pip install -e ./fara_repo"
+    }
+  },
+  {
+    "method": "shell.run",
+    "params": {
+      "message": "Installing dependencies from requirements.txt...",
+      "venv": "env", 
+      "path": "pip install -r requirements.txt"
+    }
+  },
+  {
+    "method": "shell.run",
+    "params": {
+      "message": "Installing Playwright browsers...",
+      "venv": "env",
+      "path": "python -m playwright install"
+    }
+  },
+  {
+    "method": "notify",
+    "params": {
+      "html": "✅ <b>Installation Complete!</b><br><br>🎯 <b>Fara-7B is ready to use!</b><br><br>📋 <b>Next steps:</b><br>1. Click 'Start' to launch the interface<br>2. Configure your model endpoint<br>3. Start automating web tasks!<br><br>💡 <b>Note:</b> You'll need either:<br>• Local VLLM: <code>vllm serve microsoft/Fara-7B --port 5000</code><br>• Or Azure Foundry endpoint configured"
+    }
+  }
+]
