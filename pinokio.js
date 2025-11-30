@@ -11,4 +11,3 @@ module.exports = {
     href: "start.json"
   }]
 }
-}

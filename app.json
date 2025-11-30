@@ -1,0 +1,17 @@
+{
+  "name": "Fara-7B Computer Use Agent",
+  "description": "Microsoft's 7B parameter computer use agent with Gradio interface",
+  "version": "1.0.0",
+  "icon": "🤖",
+  "category": "AI/ML",
+  "tags": ["ai", "computer-use", "automation", "gradio", "microsoft"],
+  "author": "Microsoft Research",
+  "license": "MIT",
+  "repository": "https://github.com/neviah/Fara-Pinokio",
+  "documentation": "README.md",
+  "requirements": {
+    "python": ">=3.8",
+    "memory": "8GB",
+    "storage": "5GB"
+  }
+}
