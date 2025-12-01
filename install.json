@@ -1,60 +1,38 @@
 {
-  "run": [
-    {
-      "method": "powershell.run",
-      "params": {
-        "message": "Initialize install.log",
-        "path": "Remove-Item install.log -ErrorAction SilentlyContinue; 'Fara Install Log' | Out-File install.log"
-      }
-    },
-    {
-      "method": "powershell.run",
-      "params": {
-        "message": "Create virtual environment",
-        "path": "python -m venv env >> install.log 2>&1"
-      }
-    },
-    {
-      "method": "powershell.run",
-      "params": {
-        "message": "Upgrade pip",
-        "path": "env\\Scripts\\python -m pip install --upgrade pip >> install.log 2>&1"
-      }
-    },
-    {
-      "method": "powershell.run",
-      "params": {
-        "message": "Install requirements.txt",
-        "path": "if (Test-Path requirements.txt) { env\\Scripts\\pip install -r requirements.txt >> install.log 2>&1 }"
-      }
-    },
-    {
-      "method": "powershell.run",
-      "params": {
-        "message": "Install core packages",
-        "path": "env\\Scripts\\pip install gradio playwright openai pillow tenacity numpy requests >> install.log 2>&1"
-      }
-    },
-    {
-      "method": "powershell.run",
-      "params": {
-        "message": "Clone Fara repository",
-        "path": "if (!(Test-Path fara_repo)) { git clone https://github.com/microsoft/fara.git fara_repo >> install.log 2>&1 } else { 'Repo already exists' >> install.log }"
-      }
-    },
-    {
-      "method": "powershell.run",
-      "params": {
-        "message": "Install Fara (editable)",
-        "path": "env\\Scripts\\pip install -e ./fara_repo >> install.log 2>&1"
-      }
-    },
-    {
-      "method": "powershell.run",
-      "params": {
-        "message": "Install Playwright browsers",
-        "path": "env\\Scripts\\playwright install >> install.log 2>&1"
-      }
+  "run": [{
+    "method": "shell.run",
+    "params": {
+      "message": "python -m venv env",
+      "venv": "env"
     }
-  ]
+  }, {
+    "method": "shell.run",
+    "params": {
+      "message": "pip install --upgrade pip",
+      "venv": "env"
+    }
+  }, {
+    "method": "shell.run",
+    "params": {
+      "message": "pip install gradio playwright openai pillow tenacity numpy requests",
+      "venv": "env"
+    }
+  }, {
+    "method": "shell.run",
+    "params": {
+      "message": "git clone https://github.com/microsoft/fara.git fara_repo"
+    }
+  }, {
+    "method": "shell.run",
+    "params": {
+      "message": "pip install -e ./fara_repo",
+      "venv": "env"
+    }
+  }, {
+    "method": "shell.run",
+    "params": {
+      "message": "playwright install",
+      "venv": "env"
+    }
+  }]
 }
