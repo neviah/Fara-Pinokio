@@ -1,34 +1,31 @@
 {
   "run": [
     {
-      "method": "shell.run",
+      "method": "powershell.run",
       "params": {
         "message": "Create virtual environment",
         "path": "python -m venv env"
       }
     },
     {
-      "method": "shell.run",
+      "method": "powershell.run",
       "params": {
-        "venv": "env",
         "message": "Upgrade pip",
-        "path": "python -m pip install --upgrade pip"
+        "path": "env\\Scripts\\python -m pip install --upgrade pip"
       }
     },
     {
-      "method": "shell.run",
+      "method": "powershell.run",
       "params": {
-        "venv": "env",
         "message": "Install requirements.txt",
-        "path": "pip install -r requirements.txt"
+        "path": "if (Test-Path requirements.txt) { env\\Scripts\\pip install -r requirements.txt }"
       }
     },
     {
-      "method": "shell.run",
+      "method": "powershell.run",
       "params": {
-        "venv": "env",
         "message": "Install core packages",
-        "path": "pip install gradio playwright openai pillow tenacity numpy requests"
+        "path": "env\\Scripts\\pip install gradio playwright openai pillow tenacity numpy requests"
       }
     },
     {
@@ -39,19 +36,17 @@
       }
     },
     {
-      "method": "shell.run",
+      "method": "powershell.run",
       "params": {
-        "venv": "env",
         "message": "Install Fara (editable)",
-        "path": "pip install -e ./fara_repo"
+        "path": "env\\Scripts\\pip install -e ./fara_repo"
       }
     },
     {
-      "method": "shell.run",
+      "method": "powershell.run",
       "params": {
-        "venv": "env",
         "message": "Install Playwright browsers",
-        "path": "playwright install"
+        "path": "env\\Scripts\\playwright install"
       }
     }
   ]
