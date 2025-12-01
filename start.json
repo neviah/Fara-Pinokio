@@ -5,13 +5,7 @@
       "method": "shell.run",
       "params": {
         "venv": "env",
-        "message": "python gradio_interface.py",
-        "on": [
-          {
-            "event": "/http:\\/\\/[^=\\s]+/",
-            "done": true
-          }
-        ]
+        "message": "python gradio_interface.py"
       }
     }
   ]
