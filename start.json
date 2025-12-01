@@ -8,5 +8,6 @@
         "message": "python gradio_interface.py"
       }
     }
-  ]
+  ],
+  "on": []
 }
