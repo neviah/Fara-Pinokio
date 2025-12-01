@@ -2,7 +2,7 @@ module.exports = {
   version: "2.0",
   title: "Fara-7B Computer Use Agent", 
   description: "Microsoft's 7B parameter computer use agent with Gradio interface",
-  icon: "🤖",
+  icon: "icon.svg",
   menu: [{
     text: "Install",
     href: "install.json"
