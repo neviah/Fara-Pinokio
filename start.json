@@ -1,7 +1,7 @@
 {
   "run": [
     {
-      "method": "powershell",
+      "method": "powershell.run",
       "params": {
         "daemon": true,
         "message": "Starting Fara-7B interface...",
@@ -11,7 +11,7 @@
   ],
   "open": [
     {
-      "method": "browser",
+      "method": "browser.open",
       "params": {
         "uri": "http://localhost:7860"
       }
