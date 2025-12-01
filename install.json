@@ -37,7 +37,7 @@
   }, {
     "method": "shell.run",
     "params": {
-      "message": "playwright install",
+      "message": "python -m playwright install",
       "venv": "env"
     }
   }, {
