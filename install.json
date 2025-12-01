@@ -20,7 +20,13 @@
   }, {
     "method": "shell.run",
     "params": {
-      "message": "pip install gradio playwright openai pillow tenacity numpy requests",
+      "message": "pip install uv",
+      "venv": "env"
+    }
+  }, {
+    "method": "shell.run",
+    "params": {
+      "message": "uv pip install gradio playwright openai pillow tenacity numpy requests",
       "venv": "env"
     }
   }, {
@@ -31,7 +37,7 @@
   }, {
     "method": "shell.run",
     "params": {
-      "message": "pip install -e ./fara_repo",
+      "message": "uv pip install -e ./fara_repo",
       "venv": "env"
     }
   }, {
