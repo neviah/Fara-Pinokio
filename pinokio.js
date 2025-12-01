@@ -6,19 +6,19 @@ module.exports = {
   menu: async (kernel, info) => {
     let installed = info.exists("env")
     let running = {
-      install: info.running("install.js"),
-      start: info.running("start.js")
+      install: info.running("install.json"),
+      start: info.running("start.json")
     }
     if (running.install) {
       return [{
         default: true,
         icon: "fa-solid fa-plug",
         text: "Installing",
-        href: "install.js",
+        href: "install.json",
       }]
     } else if (installed) {
       if (running.start) {
-        let local = info.local("start.js")
+        let local = info.local("start.json")
         if (local && local.url) {
           return [{
             default: true,
@@ -28,14 +28,14 @@ module.exports = {
           }, {
             icon: 'fa-solid fa-terminal',
             text: "Terminal",
-            href: "start.js",
+            href: "start.json",
           }]
         } else {
           return [{
             default: true,
             icon: 'fa-solid fa-terminal',
             text: "Terminal",
-            href: "start.js",
+            href: "start.json",
           }]
         }
       } else {
@@ -43,11 +43,11 @@ module.exports = {
           default: true,
           icon: "fa-solid fa-power-off",
           text: "Start",
-          href: "start.js",
+          href: "start.json",
         }, {
           icon: "fa-solid fa-plug",
           text: "Install",
-          href: "install.js",
+          href: "install.json",
         }]
       }
     } else {
@@ -55,7 +55,7 @@ module.exports = {
         default: true,
         icon: "fa-solid fa-plug",
         text: "Install",
-        href: "install.js",
+        href: "install.json",
       }]
     }
   }
