@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fara-7B • Start</title>
+  <style>
+    :root { color-scheme: dark light; }
+    body { font-family: system-ui, Segoe UI, Roboto, sans-serif; margin: 24px; line-height: 1.5; }
+    .card { max-width: 720px; border: 1px solid #444; border-radius: 12px; padding: 20px; background: #111; color: #eee; }
+    h1 { margin-top: 0; font-size: 22px; }
+    .muted { color: #aaa; font-size: 13px; }
+    .row { display: flex; gap: 12px; align-items: center; }
+    .btn { appearance: none; border: 1px solid #6b8; background: #2a3; color: #fff; padding: 10px 14px; border-radius: 8px; font-weight: 600; cursor: pointer; text-decoration: none; }
+    .btn[disabled] { opacity: .6; cursor: not-allowed; }
+    .status { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px; padding: 6px 10px; border-radius: 6px; border: 1px solid #555; background: #0d0d0d; }
+    .ok { color: #9f9; border-color: #3c3; }
+    .warn { color: #ffc; border-color: #aa4; }
+    .err { color: #fbb; border-color: #a44; }
+    ul { margin-top: 6px; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Fara-7B • Start</h1>
+    <p class="muted">Use this page to start the server and open the interface.</p>
+
+    <ol>
+      <li>Click <b>Run</b> in this tab to start the server (daemon).</li>
+      <li>Wait until status shows <b>Running</b>.</li>
+      <li>Click <b>Open UI</b> to launch Gradio.</li>
+    </ol>
+
+    <div class="row" style="margin-top:12px;">
+      <span id="status" class="status warn">Waiting for server...</span>
+      <a id="open" class="btn" href="http://localhost:7860" target="_blank" rel="noopener" disabled>Open UI</a>
+      <button id="retry" class="btn" type="button">Retry</button>
+    </div>
+
+    <ul class="muted">
+      <li>Default URL: <code>http://localhost:7860</code></li>
+      <li>If the button stays disabled, press Retry after a few seconds.</li>
+    </ul>
+  </div>
+
+  <script>
+    const ui = {
+      status: document.getElementById('status'),
+      open: document.getElementById('open'),
+      retry: document.getElementById('retry')
+    };
+
+    async function checkOnce() {
+      const url = 'http://localhost:7860/';
+      try {
+        const res = await fetch(url, { method: 'GET', mode: 'no-cors' });
+        // If fetch doesn't throw, assume reachable; some envs block CORS status.
+        ui.status.textContent = 'Running';
+        ui.status.className = 'status ok';
+        ui.open.removeAttribute('disabled');
+        return true;
+      } catch (e) {
+        ui.status.textContent = 'Waiting for server...';
+        ui.status.className = 'status warn';
+        ui.open.setAttribute('disabled', '');
+        return false;
+      }
+    }
+
+    async function pollUntilReady(maxAttempts = 20, intervalMs = 1500) {
+      for (let i = 0; i < maxAttempts; i++) {
+        const ok = await checkOnce();
+        if (ok) return true;
+        await new Promise(r => setTimeout(r, intervalMs));
+      }
+      ui.status.textContent = 'Server not reachable yet';
+      ui.status.className = 'status err';
+      return false;
+    }
+
+    ui.retry.addEventListener('click', () => pollUntilReady(10, 1500));
+    pollUntilReady();
+  </script>
+</body>
+</html>

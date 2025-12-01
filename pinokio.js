@@ -9,5 +9,8 @@ module.exports = {
   }, {
     text: "Start", 
     href: "start.json"
+  }, {
+    text: "Dashboard",
+    href: "start.html"
   }]
 }
