@@ -5,10 +5,11 @@
       "message": "python -m venv env"
     }
   }, {
-    "method": "fs.download",
+    "method": "shell.run",
     "params": {
-      "url": "https://raw.githubusercontent.com/neviah/Fara-Pinokio/master/gradio_interface.py",
-      "path": "gradio_interface.py"
+      "message": "Copy latest gradio_interface.py into app path (local dev)",
+      "path": ".",
+      "script": "Copy-Item -Force \"gradio_interface.py\" \"gradio_interface.py\""
     }
   }, {
     "method": "shell.run",
@@ -38,6 +39,21 @@
     "params": {
       "message": "playwright install",
       "venv": "env"
+    }
+  }, {
+    "method": "shell.run",
+    "params": {
+      "message": "Ensure torch.js present (local dev)",
+      "path": ".",
+      "script": "Copy-Item -Force \"torch.js\" \"torch.js\""
+    }
+  }, {
+    "method": "script.start",
+    "params": {
+      "uri": "torch.js",
+      "params": {
+        "venv": "env"
+      }
     }
   }]
 }
