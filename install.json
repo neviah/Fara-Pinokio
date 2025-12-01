@@ -7,7 +7,7 @@
   }, {
     "method": "shell.run",
     "params": {
-      "message": "pip install --upgrade pip",
+      "message": "python -m pip install --upgrade pip",
       "venv": "env"
     }
   }, {
