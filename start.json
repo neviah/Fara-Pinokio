@@ -10,7 +10,8 @@
   "open": [{
     "method": "browser.open",
     "params": {
-      "uri": "http://127.0.0.1:7860"
+      "uri": "http://127.0.0.1:7860",
+      "delay": 1500
     }
   }]
 }

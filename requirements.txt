@@ -7,8 +7,9 @@ tenacity>=8.0.0
 numpy>=1.20.0
 
 # Optional dependencies for enhanced functionality
-torch>=2.0.0
-transformers>=4.30.0
+# Install torch via torch.js (GPU/CPU conditional)
+# transformers optional; leave commented unless required
+# transformers>=4.30.0
 requests>=2.25.0
 aiohttp>=3.8.0
 
