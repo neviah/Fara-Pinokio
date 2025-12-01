@@ -20,5 +20,13 @@
         "url": "{{input.event[0]}}"
       }
     }
+  ],
+  "open": [
+    {
+      "method": "browser.open",
+      "params": {
+        "uri": "{{local.url}}"
+      }
+    }
   ]
 }
