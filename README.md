@@ -142,19 +142,41 @@ Try these example tasks to get started:
 
 4. **Task Completion**: The agent continues until the task is completed or the maximum rounds are reached
 
-## 📋 Requirements
+## 📋 System Requirements
 
 ### Minimum Requirements
 - **Python**: 3.8 or higher
 - **Memory**: 8GB RAM
-- **Storage**: 5GB free space
+- **Storage**: 5GB free space for dependencies + 14GB for model weights
 - **Internet**: For model download and web browsing
 
-### Recommended Requirements
-- **GPU**: NVIDIA GPU with 8GB+ VRAM (for local model hosting)
-- **Memory**: 16GB+ RAM
-- **CPU**: Multi-core processor
-- **Internet**: Stable connection
+### GPU Requirements (for Local Model Hosting)
+
+#### **Minimum VRAM** (4-6 GB)
+- Supports quantized inference (INT8/INT4)
+- Runs slower, may require CPU offloading
+- Example GPUs: RTX 3050, GTX 1660 Ti, RTX 2060
+
+#### **Recommended VRAM** (8-12 GB) ⭐
+- Full FP16 precision
+- Smooth inference performance
+- Example GPUs: RTX 3060 12GB, RTX 4060 Ti, RTX 3080 10GB
+
+#### **Optimal VRAM** (16+ GB)
+- Fast inference with large context windows
+- Room for batch processing
+- Example GPUs: RTX 4080, RTX 4090, RTX A5000, A6000
+
+#### **CPU Fallback** (No GPU)
+- Automatically uses CPU-only PyTorch if no NVIDIA GPU detected
+- Runs 10-30x slower than GPU
+- Functional for testing and light usage
+- Requires 16GB+ system RAM recommended
+
+### Other Recommended Specs
+- **Memory**: 16GB+ RAM (32GB for CPU-only mode)
+- **CPU**: Multi-core processor (8+ cores recommended for CPU mode)
+- **Internet**: Stable broadband connection
 
 ## 🛠️ Troubleshooting
 

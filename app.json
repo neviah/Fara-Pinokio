@@ -11,7 +11,13 @@
   "documentation": "README.md",
   "requirements": {
     "python": ">=3.8",
-    "memory": "8GB",
-    "storage": "5GB"
+    "memory": "8GB minimum, 16GB+ recommended",
+    "storage": "19GB (5GB dependencies + 14GB model weights)",
+    "gpu": {
+      "minimum": "4GB VRAM (quantized, slower)",
+      "recommended": "8-12GB VRAM (RTX 3060 12GB, RTX 4060 Ti)",
+      "optimal": "16GB+ VRAM (RTX 4080, RTX 4090)",
+      "note": "CPU fallback available (no GPU required, but 10-30x slower)"
+    }
   }
 }
