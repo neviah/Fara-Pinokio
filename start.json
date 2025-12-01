@@ -1,16 +1,20 @@
-[
-  {
-    "method": "powershell.run",
-    "params": {
-      "daemon": true,
-      "message": "Starting Fara-7B interface...",
-      "path": "env\\Scripts\\python gradio_interface.py"
+{
+  "run": [
+    {
+      "method": "powershell",
+      "params": {
+        "daemon": true,
+        "message": "Starting Fara-7B interface...",
+        "path": "env\\Scripts\\python gradio_interface.py"
+      }
     }
-  },
-  {
-    "method": "browser.open",
-    "params": {
-      "uri": "http://localhost:7860"
+  ],
+  "open": [
+    {
+      "method": "browser",
+      "params": {
+        "uri": "http://localhost:7860"
+      }
     }
-  }
-]
+  ]
+}

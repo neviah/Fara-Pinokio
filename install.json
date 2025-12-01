@@ -1,53 +1,53 @@
-[
-  {
-    "method": "powershell.run",
-    "params": {
-      "message": "Setting up Python environment...",
-      "path": "python -m venv env"
+{
+  "run": [
+    {
+      "method": "powershell",
+      "params": {
+        "message": "Setting up Python environment...",
+        "path": "python -m venv env"
+      }
+    },
+    {
+      "method": "powershell",
+      "params": {
+        "message": "Installing Gradio...",
+        "path": "env\\Scripts\\pip install gradio"
+      }
+    },
+    {
+      "method": "powershell",
+      "params": {
+        "message": "Installing Playwright...",
+        "path": "env\\Scripts\\pip install playwright"
+      }
+    },
+    {
+      "method": "powershell",
+      "params": {
+        "message": "Installing other dependencies...",
+        "path": "env\\Scripts\\pip install openai pillow tenacity numpy requests"
+      }
+    },
+    {
+      "method": "powershell",
+      "params": {
+        "message": "Cloning Fara repository...",
+        "path": "git clone https://github.com/microsoft/fara.git fara_repo"
+      }
+    },
+    {
+      "method": "powershell",
+      "params": {
+        "message": "Installing Fara package...",
+        "path": "env\\Scripts\\pip install -e ./fara_repo"
+      }
+    },
+    {
+      "method": "powershell",
+      "params": {
+        "message": "Installing browsers...",
+        "path": "env\\Scripts\\playwright install"
+      }
     }
-  },
-  {
-    "method": "powershell.run",
-    "params": {
-      "message": "Installing Gradio...",
-      "path": "env\\Scripts\\pip install gradio"
-    }
-  },
-  {
-    "method": "powershell.run",
-    "params": {
-      "message": "Installing Playwright...",
-      "path": "env\\Scripts\\pip install playwright"
-    }
-  },
-  {
-    "method": "powershell.run",
-    "params": {
-      "message": "Installing other dependencies...",
-      "path": "env\\Scripts\\pip install openai pillow tenacity numpy requests"
-    }
-  },
-  {
-    "method": "powershell.run",
-    "params": {
-      "message": "Cloning Fara repository...",
-      "path": "git clone https://github.com/microsoft/fara.git fara_repo"
-    }
-  },
-  {
-    "method": "shell.run", 
-    "params": {
-      "venv": "env",
-      "message": "Installing Fara package...",
-      "path": "pip install -e ./fara_repo"
-    }
-  },
-  {
-    "method": "shell.run",
-    "params": {
-      "venv": "env",
-      "message": "Installing browsers...",
-      "path": "playwright install"
-    }
-  }
-]
+  ]
+}
