@@ -1,11 +1,10 @@
 [
   {
-    "method": "shell.run",
+    "method": "powershell.run",
     "params": {
-      "venv": "env",
       "daemon": true,
       "message": "Starting Fara-7B interface...",
-      "path": "python gradio_interface.py"
+      "path": "env\\Scripts\\python gradio_interface.py"
     }
   },
   {

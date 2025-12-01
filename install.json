@@ -1,38 +1,34 @@
 [
   {
-    "method": "shell.run",
+    "method": "powershell.run",
     "params": {
-      "venv": "env",
       "message": "Setting up Python environment...",
       "path": "python -m venv env"
     }
   },
   {
-    "method": "shell.run",
+    "method": "powershell.run",
     "params": {
-      "venv": "env", 
       "message": "Installing Gradio...",
-      "path": "pip install gradio"
+      "path": "env\\Scripts\\pip install gradio"
     }
   },
   {
-    "method": "shell.run",
+    "method": "powershell.run",
     "params": {
-      "venv": "env",
-      "message": "Installing Playwright...", 
-      "path": "pip install playwright"
+      "message": "Installing Playwright...",
+      "path": "env\\Scripts\\pip install playwright"
     }
   },
   {
-    "method": "shell.run",
+    "method": "powershell.run",
     "params": {
-      "venv": "env",
       "message": "Installing other dependencies...",
-      "path": "pip install openai pillow tenacity numpy requests"
+      "path": "env\\Scripts\\pip install openai pillow tenacity numpy requests"
     }
   },
   {
-    "method": "shell.run",
+    "method": "powershell.run",
     "params": {
       "message": "Cloning Fara repository...",
       "path": "git clone https://github.com/microsoft/fara.git fara_repo"
