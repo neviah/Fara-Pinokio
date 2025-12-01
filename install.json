@@ -5,6 +5,12 @@
       "message": "python -m venv env"
     }
   }, {
+    "method": "fs.download",
+    "params": {
+      "url": "https://raw.githubusercontent.com/neviah/Fara-Pinokio/master/gradio_interface.py",
+      "path": "gradio_interface.py"
+    }
+  }, {
     "method": "shell.run",
     "params": {
       "message": "python -m pip install --upgrade pip",
