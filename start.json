@@ -1,17 +1,26 @@
 {
   "daemon": true,
-  "run": [{
-    "method": "shell.run",
-    "params": {
-      "message": "python gradio_interface.py",
-      "venv": "env"
+  "run": [
+    {
+      "method": "shell.run",
+      "params": {
+        "message": "Start background opener to wait for 7860 and launch browser",
+        "script": "Start-Job -ScriptBlock { $url = 'http://127.0.0.1:7860'; $timeoutSec = 180; $sw = [System.Diagnostics.Stopwatch]::StartNew(); while ($sw.Elapsed.TotalSeconds -lt $timeoutSec) { try { $r = Invoke-WebRequest -UseBasicParsing -Uri $url -Method Head -TimeoutSec 3; if ($r.StatusCode -ge 200 -and $r.StatusCode -lt 500) { break } } catch { } Start-Sleep -Seconds 1 } Start-Process $url } | Out-Null"
+      }
+    },
+    {
+      "method": "shell.run",
+      "params": {
+        "message": "python gradio_interface.py",
+        "venv": "env"
+      }
     }
-  }],
+  ],
   "open": [{
     "method": "browser.open",
     "params": {
       "uri": "http://127.0.0.1:7860",
-      "delay": 1500
+      "delay": 6000
     }
   }]
 }

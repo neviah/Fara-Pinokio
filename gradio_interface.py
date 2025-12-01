@@ -3,6 +3,8 @@ import asyncio
 import os
 import tempfile
 import logging
+import json
+from pathlib import Path
 from datetime import datetime
 
 # Simple logging setup
@@ -27,6 +29,37 @@ def run_fara_task(task_description):
             "", 
             "Please check your configuration and try again."
         )
+
+# Load/save simple endpoint config (supports LM Studio by default)
+CONFIG_PATH = Path(__file__).parent / "endpoint_config.json"
+
+DEFAULT_CONFIG = {
+    "model": "microsoft/Fara-7B",
+    # LM Studio default OpenAI-compatible endpoint
+    "base_url": "http://localhost:1234/v1",
+    # LM Studio accepts any key; default label for clarity
+    "api_key": "lm-studio"
+}
+
+def read_config():
+    try:
+        if CONFIG_PATH.exists():
+            with open(CONFIG_PATH, "r", encoding="utf-8") as f:
+                data = json.load(f)
+                return {**DEFAULT_CONFIG, **data}
+    except Exception as e:
+        logger.warning(f"Failed to read config: {e}")
+    return DEFAULT_CONFIG.copy()
+
+def write_config(cfg: dict):
+    try:
+        with open(CONFIG_PATH, "w", encoding="utf-8") as f:
+            json.dump(cfg, f, indent=2)
+        return True, "✅ Configuration saved"
+    except Exception as e:
+        return False, f"❌ Failed to save configuration: {e}"
+
+app_config = read_config()
 
 # Create the Gradio interface
 with gr.Blocks(title="Fara-7B Computer Use Agent") as demo:
@@ -67,8 +100,8 @@ with gr.Blocks(title="Fara-7B Computer Use Agent") as demo:
         
         model_endpoint = gr.Textbox(
             label="Model Endpoint",
-            value="http://localhost:5000/v1",
-            placeholder="http://localhost:5000/v1"
+            value=app_config.get("base_url", DEFAULT_CONFIG["base_url"]),
+            placeholder="http://localhost:1234/v1"
         )
         
         api_key = gr.Textbox(
@@ -76,12 +109,18 @@ with gr.Blocks(title="Fara-7B Computer Use Agent") as demo:
             placeholder="your-api-key-here",
             type="password"
         )
+
+        api_key.value = app_config.get("api_key", DEFAULT_CONFIG["api_key"])  # set default after creation
         
         config_button = gr.Button("💾 Save Configuration")
         config_status = gr.Textbox(label="Status", interactive=False)
         
         gr.Markdown("""
         ### Setup Instructions
+        
+        **For LM Studio (recommended for easy local use):**
+        1. Install [LM Studio](https://lmstudio.ai/) and start a local server (OpenAI compatible)
+        2. Use endpoint `http://localhost:1234/v1` and any API key (e.g. `lm-studio`)
         
         **For Local VLLM:**
         ```bash
@@ -114,7 +153,11 @@ with gr.Blocks(title="Fara-7B Computer Use Agent") as demo:
     
     # Event handlers
     def save_config(endpoint, key):
-        return "✅ Configuration saved (demo mode)"
+        cfg = read_config()
+        cfg["base_url"] = endpoint.strip() or cfg.get("base_url")
+        cfg["api_key"] = key.strip() or cfg.get("api_key")
+        ok, msg = write_config(cfg)
+        return msg
     
     run_button.click(
         fn=run_fara_task,
