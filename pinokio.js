@@ -12,8 +12,5 @@ module.exports = {
   }, {
     text: "Dashboard",
     href: "start.html"
-  }, {
-    text: "Install GPU (Torch CUDA)",
-    href: "torch.js"
   }]
 }
