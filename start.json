@@ -5,9 +5,20 @@
       "method": "shell.run",
       "params": {
         "venv": "env",
-        "message": "python gradio_interface.py"
+        "message": "python gradio_interface.py",
+        "on": [
+          {
+            "event": "/http:\\/\\/[^=\\s]+/",
+            "done": true
+          }
+        ]
+      }
+    },
+    {
+      "method": "local.set",
+      "params": {
+        "url": "{{input.event[0]}}"
       }
     }
-  ],
-  "on": []
+  ]
 }
