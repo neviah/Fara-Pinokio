@@ -4,8 +4,7 @@
     {
       "method": "shell.run",
       "params": {
-        "message": "Start background opener to wait for 7860 and launch browser",
-        "script": "Start-Job -ScriptBlock { $url = 'http://127.0.0.1:7860'; $timeoutSec = 180; $sw = [System.Diagnostics.Stopwatch]::StartNew(); while ($sw.Elapsed.TotalSeconds -lt $timeoutSec) { try { $r = Invoke-WebRequest -UseBasicParsing -Uri $url -Method Head -TimeoutSec 3; if ($r.StatusCode -ge 200 -and $r.StatusCode -lt 500) { break } } catch { } Start-Sleep -Seconds 1 } Start-Process $url } | Out-Null"
+        "message": "powershell -NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -Command \"$url='http://127.0.0.1:7860'; $timeoutSec=180; $sw=[Diagnostics.Stopwatch]::StartNew(); while($sw.Elapsed.TotalSeconds -lt $timeoutSec){ try{ $r=Invoke-WebRequest -UseBasicParsing -Method Head -Uri $url -TimeoutSec 3; if($r.StatusCode -ge 200 -and $r.StatusCode -lt 500){ break } } catch{} Start-Sleep -Seconds 1 }; Start-Process $url\""
       }
     },
     {
