@@ -29,7 +29,7 @@ def run_fara_task(task_description):
         )
 
 # Create the Gradio interface
-with gr.Blocks(title="Fara-7B Computer Use Agent", theme=gr.themes.Soft()) as demo:
+with gr.Blocks(title="Fara-7B Computer Use Agent") as demo:
     gr.Markdown("""
     # 🤖 Fara-7B Computer Use Agent
     
