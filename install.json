@@ -41,13 +41,6 @@
       "venv": "env"
     }
   }, {
-    "method": "shell.run",
-    "params": {
-      "message": "Ensure torch.js present (local dev)",
-      "path": ".",
-      "script": "Copy-Item -Force \"torch.js\" \"torch.js\""
-    }
-  }, {
     "method": "script.start",
     "params": {
       "uri": "torch.js",
