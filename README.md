@@ -66,7 +66,39 @@ python gradio_interface.py
 
 ## ⚙️ Configuration
 
-### Local VLLM Setup (Recommended for Testing)
+### LM Studio Setup (Easiest for Local Testing) ⭐
+
+**LM Studio** provides the easiest way to run Fara-7B locally with a user-friendly GUI!
+
+1. **Download and Install** [LM Studio](https://lmstudio.ai/)
+
+2. **Download Fara-7B**:
+   - Open LM Studio
+   - Go to the "Discover" tab
+   - Search for `microsoft/Fara-7B`
+   - Click Download (choose FP16 for best quality, or INT4/INT8 for lower VRAM)
+
+3. **Start the Local Server**:
+   - Go to the "Local Server" tab in LM Studio
+   - Select the Fara-7B model you downloaded
+   - Click "Start Server"
+   - Default port is `1234` (OpenAI-compatible endpoint)
+
+4. **Configure in the Gradio interface**:
+   - Model Endpoint: `http://localhost:1234/v1`
+   - API Key: `lm-studio` (or any value, it's not validated locally)
+   - Click "Save Configuration"
+
+5. **Start automating!** The interface will use your local LM Studio server.
+
+**Benefits of LM Studio:**
+- ✅ Easy GUI for model management
+- ✅ No command-line needed
+- ✅ Built-in model quantization options
+- ✅ OpenAI-compatible API (works with existing code)
+- ✅ GPU acceleration automatically configured
+
+### Local VLLM Setup (Advanced Users)
 
 1. **Install VLLM**:
    ```bash
