@@ -3,8 +3,50 @@
     {
       "method": "powershell.run",
       "params": {
-        "message": "Full scripted install (install.ps1)...",
-        "path": "powershell -ExecutionPolicy Bypass -File install.ps1"
+        "message": "Create virtual environment",
+        "path": "python -m venv env"
+      }
+    },
+    {
+      "method": "powershell.run",
+      "params": {
+        "message": "Upgrade pip",
+        "path": "env\\Scripts\\python -m pip install --upgrade pip"
+      }
+    },
+    {
+      "method": "powershell.run",
+      "params": {
+        "message": "Install requirements.txt (if present)",
+        "path": "if (Test-Path requirements.txt) { env\\Scripts\\pip install -r requirements.txt }"
+      }
+    },
+    {
+      "method": "powershell.run",
+      "params": {
+        "message": "Install core packages",
+        "path": "env\\Scripts\\pip install gradio playwright openai pillow tenacity numpy requests"
+      }
+    },
+    {
+      "method": "powershell.run",
+      "params": {
+        "message": "Clone Fara repository",
+        "path": "if (!(Test-Path fara_repo)) { git clone https://github.com/microsoft/fara.git fara_repo }"
+      }
+    },
+    {
+      "method": "powershell.run",
+      "params": {
+        "message": "Install Fara (editable)",
+        "path": "env\\Scripts\\pip install -e ./fara_repo"
+      }
+    },
+    {
+      "method": "powershell.run",
+      "params": {
+        "message": "Install Playwright browsers",
+        "path": "env\\Scripts\\playwright install"
       }
     }
   ]
