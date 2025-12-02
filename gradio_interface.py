@@ -59,7 +59,12 @@ def run_fara_task(task_description):
         }
         
         # Make the API call
-        endpoint = base_url.rstrip("/") + "/chat/completions"
+        # Handle both formats: http://localhost:1234/v1 and http://localhost:5000/v1
+        base = base_url.rstrip("/")
+        if base.endswith("/v1"):
+            endpoint = base + "/chat/completions"
+        else:
+            endpoint = base + "/v1/chat/completions"
         logger.info(f"Calling endpoint: {endpoint}")
         
         response = requests.post(
@@ -260,5 +265,10 @@ if __name__ == "__main__":
     demo.launch(
         server_name="127.0.0.1",
         server_port=7860,
-        share=False
+        share=False,
+        inbrowser=False,
+        show_error=True,
+        # Allow iframe embedding for Pinokio
+        allowed_paths=["."],
+        root_path=None
     )
