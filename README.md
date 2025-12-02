@@ -4,15 +4,29 @@ A beautiful web interface for Microsoft's Fara-7B, the efficient 7B parameter ag
 
 ![Fara-7B Interface](https://img.shields.io/badge/Fara--7B-Computer%20Use%20Agent-blue) ![Gradio](https://img.shields.io/badge/Gradio-Interface-orange) ![Pinokio](https://img.shields.io/badge/Pinokio-Compatible-green)
 
+## ⚠️ **IMPORTANT: You Must Run Fara-7B Locally**
+
+**This interface requires the Fara-7B model to work.** You cannot use OpenAI's ChatGPT or other cloud LLMs.
+
+**You have 3 options to run Fara-7B:**
+
+1. **LM Studio** (Easiest - Recommended) ⭐ - User-friendly GUI, no command line needed
+2. **VLLM** (Advanced) - Command line setup for power users
+3. **Azure Foundry** (Cloud) - Deploy Fara-7B on Azure (paid)
+
+See the **[Configuration](#️-configuration)** section below for detailed setup instructions.
+
+---
+
 ## 🌟 Features
 
 - 🎯 **Easy-to-use Gradio Interface**: Beautiful web UI for interacting with Fara-7B
-- 🤖 **Microsoft's Fara-7B**: State-of-the-art 7B parameter computer use agent
-- 🔧 **Flexible Hosting**: Supports both local VLLM and Azure Foundry deployment
-- 📊 **Task Monitoring**: Real-time progress tracking and history
+- 🤖 **Microsoft's Fara-7B**: State-of-the-art 7B parameter computer use agent  
+- 🏠 **Run Locally**: Complete privacy with on-device model hosting
+- 📊 **Task Monitoring**: Real-time progress tracking
 - 🎨 **Modern Design**: Responsive interface with dark/light theme support
 - 🚀 **Pinokio Compatible**: One-click installation and deployment
-- 🔒 **Privacy-First**: Run locally for complete data privacy
+- 🔒 **Privacy-First**: All processing happens on your machine
 
 ## 🎬 What Fara-7B Can Do
 
@@ -26,113 +40,136 @@ Fara-7B can automate a wide variety of web tasks:
 - 📊 **Data Collection**: Extract information from websites
 - 🗂️ **Account Management**: Login, navigate, and manage web accounts
 
+---
+
 ## 🚀 Quick Start with Pinokio
 
-### Method 1: Direct Pinokio Installation (Recommended)
+### Step 1: Install the Interface
 
 1. **Install Pinokio** from [pinokio.computer](https://pinokio.computer)
 
 2. **Add this repository** to Pinokio:
    ```
-   https://github.com/your-username/fara-gradio-interface
+   https://github.com/neviah/Fara-Pinokio
    ```
 
 3. **Click Install** - Pinokio will automatically:
-   - Clone the Microsoft Fara repository
    - Set up Python virtual environment
-   - Install all dependencies
-   - Download Playwright browsers
+   - Install all dependencies (Gradio, Playwright, etc.)
+   - Download required browser automation tools
    - Create the Gradio interface
 
-4. **Click Run** to start the interface
+4. **Click Start** to launch the interface
 
-5. **Configure** your model endpoint and start automating!
+### Step 2: Set Up Fara-7B Model Server
 
-### Method 2: Manual Installation
+**⚠️ REQUIRED**: The interface alone won't work. You must also run the Fara-7B model using one of the methods below.
 
-If you prefer manual setup:
-
-```bash
-# Clone this repository
-git clone https://github.com/your-username/fara-gradio-interface
-cd fara-gradio-interface
-
-# Install using the provided script
-node install.js
-
-# Start the interface
-python gradio_interface.py
-```
+---
 
 ## ⚙️ Configuration
 
-### LM Studio Setup (Easiest for Local Testing) ⭐
+### Option 1: LM Studio (Recommended - Easiest) ⭐
 
-**LM Studio** provides the easiest way to run Fara-7B locally with a user-friendly GUI!
+**LM Studio is the EASIEST way to run Fara-7B locally!** No command line knowledge needed.
 
-1. **Download and Install** [LM Studio](https://lmstudio.ai/)
+#### Why LM Studio?
+- ✅ **User-friendly GUI** - No terminal commands required
+- ✅ **One-click model download** - Browse and download models easily
+- ✅ **Auto GPU detection** - Automatically uses your GPU if available
+- ✅ **Built-in quantization** - Choose FP16, INT8, or INT4 for your VRAM
+- ✅ **OpenAI-compatible API** - Works seamlessly with this interface
 
-2. **Download Fara-7B**:
+#### Setup Steps:
+
+1. **Download and Install [LM Studio](https://lmstudio.ai/)**
+
+2. **Download Fara-7B Model**:
    - Open LM Studio
-   - Go to the "Discover" tab
-   - Search for `microsoft/Fara-7B`
-   - Click Download (choose FP16 for best quality, or INT4/INT8 for lower VRAM)
+   - Click the "🔍 Discover" tab (search icon)
+   - Search for: `microsoft/Fara-7B` or `Fara-7B`
+   - Choose a version based on your GPU VRAM:
+     - **FP16** - Best quality, needs 12-14GB VRAM
+     - **INT8** (Q8) - Good quality, needs 8GB VRAM
+     - **INT4** (Q4_K_M) - Lower quality, needs 4-6GB VRAM
+   - Click **Download**
 
 3. **Start the Local Server**:
-   - Go to the "Local Server" tab in LM Studio
-   - Select the Fara-7B model you downloaded
-   - Click "Start Server"
-   - Default port is `1234` (OpenAI-compatible endpoint)
+   - Click the "💻 Local Server" tab in LM Studio
+   - Select the `Fara-7B` model you just downloaded
+   - Click **"Start Server"**
+   - Server starts on port `1234` (default)
+   - ⚠️ **Keep LM Studio running** while using the interface
 
-4. **Configure in the Gradio interface**:
-   - Model Endpoint: `http://localhost:1234/v1`
-   - API Key: `lm-studio` (or any value, it's not validated locally)
-   - Click "Save Configuration"
+4. **Configure This Interface**:
+   - In the Gradio interface, click the **"⚙️ Configuration"** tab
+   - Enter:
+     - **Model Endpoint**: `http://localhost:1234/v1`
+     - **API Key**: `lm-studio` (any value works for local)
+   - Click **"💾 Save Configuration"**
 
-5. **Start automating!** The interface will use your local LM Studio server.
+5. **Start Automating!** ✅
+   - Go to the **"🚀 Run Tasks"** tab
+   - Enter a task like: "Find an Xbox controller on Amazon"
+   - Click **"Run Task"**
+   - Watch Fara-7B work!
 
-**Benefits of LM Studio:**
-- ✅ Easy GUI for model management
-- ✅ No command-line needed
-- ✅ Built-in model quantization options
-- ✅ OpenAI-compatible API (works with existing code)
-- ✅ GPU acceleration automatically configured
+---
 
-### Local VLLM Setup (Advanced Users)
+### Option 2: VLLM (Advanced - Command Line)
+
+**For advanced users comfortable with the command line.**
+
+#### Setup Steps:
 
 1. **Install VLLM**:
    ```bash
    pip install vllm
    ```
 
-2. **Start the model server**:
+2. **Start the Fara-7B Server**:
    ```bash
-   vllm serve "microsoft/Fara-7B" --port 5000 --dtype auto
+   vllm serve microsoft/Fara-7B --port 5000 --dtype auto
    ```
+   - First run will download the model (~14GB)
+   - Auto-detects GPU and uses FP16 if available
+   - ⚠️ **Keep this terminal open** while using the interface
 
-3. **Configure in the interface**:
-   - Model Name: `microsoft/Fara-7B`
-   - Base URL: `http://localhost:5000/v1`
-   - API Key: leave empty
+3. **Configure This Interface**:
+   - **Model Endpoint**: `http://localhost:5000/v1`
+   - **API Key**: (leave empty for local)
+   - Click **"💾 Save Configuration"**
 
-### Azure Foundry Setup (Recommended for Production)
+---
 
-1. **Deploy Fara-7B** on [Azure Foundry](https://ai.azure.com/explore/models/Fara-7B/version/2/registry/azureml-msr)
+### Option 3: Azure Foundry (Cloud - Paid)
 
-2. **Get your endpoint details** from the deployment
+**Deploy Fara-7B on Microsoft Azure for cloud-based inference.**
 
-3. **Configure in the interface**:
-   - Model Name: `Fara-7B`
-   - Base URL: `https://your-endpoint.inference.ml.azure.com/`
-   - API Key: `your-api-key-here`
+#### Setup Steps:
 
-### BrowserBase Setup (Optional)
+1. **Deploy Fara-7B** on [Azure AI Foundry](https://ai.azure.com/explore/models/Fara-7B/version/2/registry/azureml-msr)
 
-For cloud browser management, set these environment variables:
-```bash
-export BROWSERBASE_API_KEY="your-api-key"
-export BROWSERBASE_PROJECT_ID="your-project-id"
-```
+2. **Get your endpoint details** from the Azure deployment page
+
+3. **Configure This Interface**:
+   - **Model Endpoint**: `https://your-endpoint.inference.ml.azure.com/v1`
+   - **API Key**: Your Azure API key
+   - Click **"💾 Save Configuration"**
+
+---
+
+## ❌ What WON'T Work
+
+**This interface will NOT work with:**
+- ❌ OpenAI ChatGPT API (`https://api.openai.com`)
+- ❌ Anthropic Claude API
+- ❌ Google Gemini API
+- ❌ Any other cloud LLM service
+
+**Why?** Fara-7B is a specialized model for computer use and web automation. It requires specific training and architecture that generic chat models don't have.
+
+---
 
 ## 🖥️ Interface Guide
 
@@ -143,16 +180,12 @@ export BROWSERBASE_PROJECT_ID="your-project-id"
    - Monitor real-time progress
    - View results and actions taken
 
-2. **⚙️ Configuration**: Set up model endpoints
-   - Configure local VLLM or Azure Foundry
+2. **⚙️ Configuration**: Set up your Fara-7B model server
+   - Configure LM Studio, VLLM, or Azure endpoint
    - Test connection
    - View setup instructions
 
-3. **📊 History**: View previous tasks
-   - See task results and timestamps
-   - Review successful and failed attempts
-
-4. **ℹ️ About**: Learn about Fara-7B and the interface
+3. **ℹ️ About**: Learn about Fara-7B and the interface
 
 ### Example Tasks
 
@@ -164,6 +197,8 @@ Try these example tasks to get started:
 - `"Search for job openings for Python developers in Seattle"`
 - `"Find a hotel in Paris for next month"`
 
+---
+
 ## 🎯 How It Works
 
 1. **Visual Understanding**: Fara-7B takes screenshots of web pages and understands the visual layout
@@ -174,119 +209,81 @@ Try these example tasks to get started:
 
 4. **Task Completion**: The agent continues until the task is completed or the maximum rounds are reached
 
+---
+
 ## 📋 System Requirements
 
-### Minimum Requirements
+### For the Gradio Interface:
 - **Python**: 3.8 or higher
-- **Memory**: 8GB RAM
-- **Storage**: 5GB free space for dependencies + 14GB for model weights
-- **Internet**: For model download and web browsing
+- **Memory**: 4GB RAM minimum
+- **Storage**: 5GB free space for dependencies
+- **Internet**: For downloading dependencies and web browsing
 
-### GPU Requirements (for Local Model Hosting)
+### For Running Fara-7B Locally (LM Studio or VLLM):
 
 #### **Minimum VRAM** (4-6 GB)
-- Supports quantized inference (INT8/INT4)
-- Runs slower, may require CPU offloading
-- Example GPUs: RTX 3050, GTX 1660 Ti, RTX 2060
+- Supports quantized inference (INT4)
+- Slower performance, good for testing
+- **Example GPUs**: GTX 1660 Ti, RTX 3050, RTX 2060
 
 #### **Recommended VRAM** (8-12 GB) ⭐
-- Full FP16 precision
+- INT8 or FP16 precision
 - Smooth inference performance
-- Example GPUs: RTX 3060 12GB, RTX 4060 Ti, RTX 3080 10GB
+- **Example GPUs**: RTX 3060 12GB, RTX 4060 Ti, RTX 3080 10GB
 
 #### **Optimal VRAM** (16+ GB)
-- Fast inference with large context windows
-- Room for batch processing
-- Example GPUs: RTX 4080, RTX 4090, RTX A5000, A6000
+- Full FP16 precision with large contexts
+- Fast inference
+- **Example GPUs**: RTX 4080, RTX 4090, RTX A5000, A6000
 
 #### **CPU Fallback** (No GPU)
-- Automatically uses CPU-only PyTorch if no NVIDIA GPU detected
-- Runs 10-30x slower than GPU
-- Functional for testing and light usage
-- Requires 16GB+ system RAM recommended
+- LM Studio and VLLM can run on CPU only
+- **Very slow** (10-30x slower than GPU)
+- Requires 16GB+ system RAM
+- Functional for testing but not recommended for regular use
 
-### Other Recommended Specs
+### Other Recommended Specs:
 - **Memory**: 16GB+ RAM (32GB for CPU-only mode)
-- **CPU**: Multi-core processor (8+ cores recommended for CPU mode)
-- **Internet**: Stable broadband connection
+- **CPU**: Multi-core processor (8+ cores recommended)
+- **Storage**: 20GB free (5GB interface + 14GB model weights)
+- **Internet**: Stable broadband for model download and web browsing
+
+---
 
 ## 🛠️ Troubleshooting
 
-### Common Issues
+### "Configuration Error - Please configure your model endpoint"
+- **Cause**: You haven't set up a Fara-7B model server yet
+- **Solution**: Follow the [Configuration](#️-configuration) section above to set up LM Studio, VLLM, or Azure
 
-**"Agent not initialized"**
-- Make sure you've configured a valid model endpoint
-- Check that your VLLM server is running (for local setup)
-- Verify your API credentials (for Azure Foundry)
+### "Connection Error - Could not connect to endpoint"
+- **Cause**: The model server isn't running
+- **Solution**:
+  - **LM Studio**: Make sure you clicked "Start Server" and it shows "Running"
+  - **VLLM**: Check that the `vllm serve` command is still running in your terminal
+  - **Azure**: Verify your endpoint URL and API key are correct
 
-**"Failed to install Playwright browsers"**
+### "HTTP Error 400 - invalid model ID"
+- **Cause**: You're using an OpenAI/ChatGPT endpoint instead of Fara-7B
+- **Solution**: You MUST use Fara-7B. See the [Configuration](#️-configuration) section to set up LM Studio or VLLM
+
+### "Failed to install Playwright browsers"
 - Run manually: `python -m playwright install`
 - Check your internet connection
 - Try running with admin/sudo privileges
 
-**"Model timeout errors"**
-- Increase timeout in configuration
-- Check model server load
-- Ensure sufficient GPU memory
-
-**"Browser automation errors"**
-- Some websites have anti-automation protection
-- Try different starting pages
-- Check if the website is accessible
+### Model is very slow
+- **Check GPU usage**: Make sure LM Studio/VLLM is using your GPU
+- **Try quantization**: Use INT8 or INT4 models in LM Studio for faster inference
+- **Check VRAM**: If you're running out of VRAM, use a smaller quantized model
 
 ### Getting Help
 
 - 📖 [Official Fara Documentation](https://github.com/microsoft/fara)
 - 💬 [Pinokio Discord](https://discord.gg/pinokio)
-- 🐛 [Report Issues](https://github.com/microsoft/fara/issues)
+- 🐛 [Report Issues](https://github.com/neviah/Fara-Pinokio/issues)
 
-## 🔧 Advanced Configuration
-
-### Custom Model Endpoints
-
-You can use any OpenAI-compatible API endpoint:
-
-```json
-{
-  "model": "your-model-name",
-  "base_url": "https://your-api-endpoint.com/v1",
-  "api_key": "your-api-key"
-}
-```
-
-### Environment Variables
-
-Configure via environment variables:
-
-```bash
-export FARA_MODEL_ENDPOINT="http://localhost:5000/v1"
-export FARA_API_KEY="your-key"
-export FARA_MAX_ROUNDS="50"
-export FARA_HEADLESS="true"
-```
-
-### Browser Settings
-
-Customize browser behavior by editing the browser configuration in `gradio_interface.py`:
-
-```python
-browser_manager = BrowserBB(
-    headless=True,           # Run headless
-    viewport_height=900,     # Browser height
-    viewport_width=1440,     # Browser width
-    animate_actions=False,   # Animate clicks
-    single_tab_mode=True,    # Use single tab
-)
-```
-
-## 🤝 Contributing
-
-Contributions are welcome! This interface builds on Microsoft's excellent Fara project.
-
-1. Fork this repository
-2. Create a feature branch
-3. Make your improvements
-4. Submit a pull request
+---
 
 ## 📄 License
 
@@ -299,7 +296,7 @@ The underlying Fara-7B model is licensed under Microsoft's terms. See the [offic
 - **Microsoft Research** for developing the amazing Fara-7B model
 - **Gradio Team** for the excellent web interface framework
 - **Pinokio Community** for the one-click deployment platform
-- **Open Source Contributors** who make projects like this possible
+- **LM Studio** for making local LLM hosting accessible to everyone
 
 ## 📊 Performance Notes
 
@@ -308,15 +305,6 @@ The underlying Fara-7B model is licensed under Microsoft's terms. See the [offic
 - **Accuracy**: State-of-the-art performance in its size class
 - **Privacy**: Can run entirely on-device with local hosting
 
-## 🔮 Future Plans
-
-- [ ] Multi-language support
-- [ ] Custom task templates
-- [ ] Batch task processing
-- [ ] Advanced scheduling
-- [ ] Integration with more model providers
-- [ ] Mobile-responsive improvements
-
 ---
 
-**Ready to automate your web tasks? Get started with Pinokio today!** 🚀
+**Ready to automate your web tasks? Install Pinokio and set up LM Studio today!** 🚀
