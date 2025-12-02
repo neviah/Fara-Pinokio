@@ -59,8 +59,13 @@ def run_fara_task(task_description):
         }
         
         # Make the API call
-        # Handle both formats: http://localhost:1234/v1 and http://localhost:5000/v1
+        # Clean up the base_url - remove /chat/completions if user accidentally included it
         base = base_url.rstrip("/")
+        if "/chat/completions" in base:
+            # User put the full endpoint, extract just the base
+            base = base.split("/chat/completions")[0]
+        
+        # Now append the correct endpoint
         if base.endswith("/v1"):
             endpoint = base + "/chat/completions"
         else:
