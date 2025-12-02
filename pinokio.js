@@ -18,26 +18,16 @@ module.exports = {
       }]
     } else if (installed) {
       if (running.start) {
-        let local = info.local("start.json")
-        if (local && local.url) {
-          return [{
-            default: true,
-            icon: "fa-solid fa-rocket",
-            text: "Open Web UI",
-            href: local.url,
-          }, {
-            icon: 'fa-solid fa-terminal',
-            text: "Terminal",
-            href: "start.json",
-          }]
-        } else {
-          return [{
-            default: true,
-            icon: 'fa-solid fa-terminal',
-            text: "Terminal",
-            href: "start.json",
-          }]
-        }
+        return [{
+          default: true,
+          icon: "fa-solid fa-rocket",
+          text: "Open Web UI",
+          href: "http://127.0.0.1:7860",
+        }, {
+          icon: 'fa-solid fa-terminal',
+          text: "Terminal",
+          href: "start.json",
+        }]
       } else {
         return [{
           default: true,
