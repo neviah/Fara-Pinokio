@@ -58,7 +58,7 @@ def save_config(model_name, model_endpoint, api_key):
     return "✅ Configuration saved successfully!"
 
 
-async def initialize_browser_and_agent(headless=True):
+async def initialize_browser_and_agent():
     """Initialize the browser manager and Fara agent."""
     global browser_manager, agent
 
@@ -71,11 +71,11 @@ async def initialize_browser_and_agent(headless=True):
     # Initialize browser manager
     logger.info("Initializing Browser...")
     browser_manager = BrowserBB(
-        headless=headless,
+        headless=False,  # Always use headed mode on Windows to avoid xvfb issues
         viewport_height=900,
         viewport_width=1440,
         page_script_path=None,
-        browser_channel="firefox",
+        browser_channel="chromium",  # Use chromium instead of firefox for better Windows compatibility
         browser_data_dir=None,
         downloads_folder=DOWNLOADS_FOLDER,
         to_resize_viewport=True,
@@ -127,7 +127,7 @@ async def run_task_async(task_description, progress=gr.Progress()):
     try:
         # Initialize agent if needed
         progress(0.1, desc="Initializing browser and agent...")
-        agent_instance, _ = await initialize_browser_and_agent(headless=False)
+        agent_instance, _ = await initialize_browser_and_agent()
 
         progress(0.2, desc=f"Running task: {task_description}")
         
