@@ -4,6 +4,7 @@ import os
 import tempfile
 import logging
 import json
+import requests
 from pathlib import Path
 from datetime import datetime
 
@@ -12,22 +13,106 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 def run_fara_task(task_description):
-    """Simple function to simulate running a Fara task"""
+    """Call the configured LLM endpoint with the task description"""
     try:
-        # This is a placeholder - in real implementation, this would use the Fara agent
-        result = f"Task completed: {task_description}"
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        if not task_description or not task_description.strip():
+            return (
+                "❌ Error",
+                "",
+                "Please enter a task description"
+            )
         
+        # Load current config
+        config = read_config()
+        base_url = config.get("base_url", "").strip()
+        api_key = config.get("api_key", "").strip()
+        
+        if not base_url:
+            return (
+                "❌ Configuration Error",
+                "",
+                "Please configure your model endpoint in the Configuration tab"
+            )
+        
+        # Prepare OpenAI-compatible API request
+        headers = {
+            "Content-Type": "application/json",
+        }
+        if api_key and api_key != "lm-studio":
+            headers["Authorization"] = f"Bearer {api_key}"
+        
+        # Construct the prompt for Fara-7B
+        payload = {
+            "model": config.get("model", "microsoft/Fara-7B"),
+            "messages": [
+                {
+                    "role": "system",
+                    "content": "You are Fara-7B, a helpful AI assistant specialized in web automation and computer use tasks. Explain how you would approach the task step by step."
+                },
+                {
+                    "role": "user",
+                    "content": f"Task: {task_description}\n\nPlease explain your approach to completing this task."
+                }
+            ],
+            "temperature": 0.7,
+            "max_tokens": 500
+        }
+        
+        # Make the API call
+        endpoint = base_url.rstrip("/") + "/chat/completions"
+        logger.info(f"Calling endpoint: {endpoint}")
+        
+        response = requests.post(
+            endpoint,
+            headers=headers,
+            json=payload,
+            timeout=30
+        )
+        
+        response.raise_for_status()
+        data = response.json()
+        
+        # Extract the response
+        if "choices" in data and len(data["choices"]) > 0:
+            result = data["choices"][0]["message"]["content"]
+            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            
+            return (
+                f"✅ Completed at {timestamp}",
+                f"Task: {task_description}",
+                result
+            )
+        else:
+            return (
+                "❌ Unexpected Response",
+                f"Task: {task_description}",
+                "The API returned an unexpected response format"
+            )
+            
+    except requests.exceptions.Timeout:
         return (
-            f"✅ Completed at {timestamp}",
+            "❌ Timeout Error",
             f"Task: {task_description}",
-            "This is a demo interface. To use real Fara functionality, configure your model endpoint below."
+            "The request timed out. Please check if your model server is running and responding."
+        )
+    except requests.exceptions.ConnectionError:
+        return (
+            "❌ Connection Error",
+            f"Task: {task_description}",
+            f"Could not connect to {config.get('base_url', 'the endpoint')}. Make sure your model server is running."
+        )
+    except requests.exceptions.HTTPError as e:
+        return (
+            f"❌ HTTP Error {e.response.status_code}",
+            f"Task: {task_description}",
+            f"Server returned an error: {e.response.text[:200]}"
         )
     except Exception as e:
+        logger.exception("Error running task")
         return (
-            f"❌ Error: {str(e)}", 
-            "", 
-            "Please check your configuration and try again."
+            f"❌ Error: {type(e).__name__}",
+            f"Task: {task_description}",
+            f"Details: {str(e)}"
         )
 
 # Load/save simple endpoint config (supports LM Studio by default)
