@@ -206,10 +206,7 @@ def shutdown_agent():
 initial_config = load_config()
 
 # Create Gradio interface
-with gr.Blocks(
-    title="Fara-7B Computer Use Agent",
-    theme=gr.themes.Soft(primary_hue="blue"),
-) as demo:
+with gr.Blocks(title="Fara-7B Computer Use Agent") as demo:
     gr.Markdown(
         """
     # 🤖 Fara-7B Computer Use Agent
