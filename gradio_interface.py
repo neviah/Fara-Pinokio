@@ -15,6 +15,7 @@ logger = logging.getLogger(__name__)
 agent = None
 browser_manager = None
 current_task_running = False
+current_task = None  # Track the asyncio task for cancellation
 
 # Paths
 ENDPOINT_CONFIG_PATH = "endpoint_config.json"
@@ -80,7 +81,7 @@ async def initialize_browser_and_agent():
         downloads_folder=DOWNLOADS_FOLDER,
         to_resize_viewport=True,
         single_tab_mode=True,
-        animate_actions=False,
+        animate_actions=True,  # Enable human-like animations to avoid bot detection
         use_browser_base=False,
         logger=logger,
     )
@@ -104,7 +105,7 @@ async def initialize_browser_and_agent():
 
 async def run_task_async(task_description, progress=gr.Progress()):
     """Run a Fara task with full browser automation."""
-    global current_task_running
+    global current_task_running, current_task
 
     if not task_description or task_description.strip() == "":
         return (
@@ -116,7 +117,7 @@ async def run_task_async(task_description, progress=gr.Progress()):
 
     if current_task_running:
         return (
-            "⚠️ A task is already running. Please wait for it to complete.",
+            "⚠️ A task is already running. Please wait for it to complete or cancel it.",
             None,
             "Task already running",
             "",
@@ -168,21 +169,71 @@ async def run_task_async(task_description, progress=gr.Progress()):
 
         return result_text, latest_screenshot, notes, "\n\n".join(action_history)
 
+    except asyncio.CancelledError:
+        logger.info("Task was cancelled by user")
+        return (
+            "## 🛑 Task Cancelled\n\nThe task was stopped by user request.",
+            None,
+            "Task cancelled",
+            "",
+        )
     except Exception as e:
         logger.error(f"Error running task: {e}", exc_info=True)
         return (
-            f"## ❌ Error\n\n{str(e)}",
+            f"## ❌ Error\n\n{str(e)}\n\n**Tip:** Use the Reset button to clear the error and try again.",
             None,
             f"Error: {str(e)}",
             "",
         )
     finally:
         current_task_running = False
+        current_task = None
 
 
 def run_task_sync(task_description):
     """Synchronous wrapper for run_task_async."""
-    return asyncio.run(run_task_async(task_description))
+    global current_task
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    try:
+        current_task = loop.create_task(run_task_async(task_description))
+        return loop.run_until_complete(current_task)
+    finally:
+        loop.close()
+
+
+def cancel_task():
+    """Cancel the currently running task."""
+    global current_task, current_task_running
+    
+    if current_task and current_task_running:
+        current_task.cancel()
+        current_task_running = False
+        return "✅ Task cancellation requested. Please wait..."
+    return "ℹ️ No task is currently running"
+
+
+def reset_agent():
+    """Reset the agent and browser without shutting down."""
+    global agent, browser_manager, current_task_running, current_task
+    
+    async def cleanup_and_reset():
+        global agent, browser_manager, current_task_running, current_task
+        if agent:
+            try:
+                await agent.close()
+            except Exception as e:
+                logger.warning(f"Error during cleanup: {e}")
+        agent = None
+        browser_manager = None
+        current_task_running = False
+        current_task = None
+    
+    try:
+        asyncio.run(cleanup_and_reset())
+        return "✅ Agent reset successfully. You can start a new task."
+    except Exception as e:
+        return f"⚠️ Reset attempted with warnings: {str(e)}"
 
 
 def shutdown_agent():
@@ -242,7 +293,10 @@ with gr.Blocks(title="Fara-7B Computer Use Agent") as demo:
                         lines=3,
                     )
 
-                    run_button = gr.Button("▶️ Run Task", variant="primary", size="lg")
+                    with gr.Row():
+                        run_button = gr.Button("▶️ Run Task", variant="primary", size="lg")
+                        cancel_button = gr.Button("🛑 Cancel Task", variant="stop", size="lg")
+                        reset_button = gr.Button("🔄 Reset Agent", variant="secondary", size="lg")
 
             with gr.Row():
                 with gr.Column(scale=2):
@@ -255,6 +309,7 @@ with gr.Blocks(title="Fara-7B Computer Use Agent") as demo:
 
             with gr.Row():
                 task_info_output = gr.Textbox(label="📊 Task Info", lines=2)
+                control_status_output = gr.Textbox(label="🎛️ Control Status", lines=2)
 
             with gr.Row():
                 action_history_output = gr.Markdown(label="📜 Action History")
@@ -277,6 +332,16 @@ with gr.Blocks(title="Fara-7B Computer Use Agent") as demo:
                     task_info_output,
                     action_history_output,
                 ],
+            )
+            
+            cancel_button.click(
+                fn=cancel_task,
+                outputs=[control_status_output],
+            )
+            
+            reset_button.click(
+                fn=reset_agent,
+                outputs=[control_status_output],
             )
 
             # Example buttons
@@ -303,9 +368,17 @@ with gr.Blocks(title="Fara-7B Computer Use Agent") as demo:
             
             #### Quick Setup with LM Studio (Recommended):
             1. Download [LM Studio](https://lmstudio.ai/)
-            2. Search for and download `microsoft/Fara-7B`
+            2. Search for and download `microsoft/Fara-7B` (or quantized versions)
             3. Click "Start Server" (port 1234)
             4. Use the default settings below
+            
+            **💡 Quantized Model Support:**
+            - **4-bit (Q4_K_M)**: ~4GB VRAM - Good balance of speed and quality
+            - **5-bit (Q5_K_M)**: ~5GB VRAM - Better quality
+            - **8-bit (Q8_0)**: ~8GB VRAM - Near-original quality
+            - **FP16 (full)**: ~14GB VRAM - Best quality
+            
+            Simply load any quantized GGUF version in LM Studio - no config changes needed!
             
             #### Or use VLLM:
             ```bash
