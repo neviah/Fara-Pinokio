@@ -35,7 +35,8 @@
   }, {
     "method": "shell.run",
     "params": {
-      "message": "git clone https://github.com/microsoft/fara.git fara_repo"
+      "message": "Ensure fara_repo is available (already included in repo)",
+      "script": "if (!(Test-Path -Path 'fara_repo')) { Write-Host 'WARNING: fara_repo directory not found! This should not happen.' ; exit 1 } else { Write-Host 'fara_repo found - proceeding with install' }"
     }
   }, {
     "method": "shell.run",

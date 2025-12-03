@@ -36,12 +36,12 @@ if (Test-Path -Path "requirements.txt") {
 Write-Host "[Fara Install] Installing playwright + openai + pillow + tenacity + numpy + requests"
 & $venvPip install playwright openai pillow tenacity numpy requests || Fail "Failed to install core packages"
 
-# 5. Clone Fara repo if missing
+# 5. Verify fara_repo exists (should be in repo already)
 if (!(Test-Path -Path "fara_repo")) {
-  Write-Host "[Fara Install] Cloning microsoft/fara..."
+  Write-Host "[Fara Install] WARNING: fara_repo not found! Attempting to clone..."
   git clone https://github.com/microsoft/fara.git fara_repo || Fail "Failed to clone Fara repo"
 } else {
-  Write-Host "[Fara Install] fara_repo already present. Skipping clone."
+  Write-Host "[Fara Install] fara_repo found - proceeding with install."
 }
 
 # 6. Editable install of Fara
