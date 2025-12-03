@@ -1,0 +1,5 @@
+{
+    "model": "gpt-4o-mini-2024-07-18",
+    "base_url": "http://localhost:5000/v1",
+    "api_key": "<YOUR API KEY>"
+}
